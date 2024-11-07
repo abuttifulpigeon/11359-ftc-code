@@ -13,16 +13,16 @@ import com.qualcomm.*;
 @TeleOp(name = "DriveCode", group = "TeleOp")
 public class DriveCode extends LinearOpMode {
     double left_Frontpow = 0;
-double right_Frontpow = 0;
-double left_Backpow = 0;
-double right_Backpow = 0;
+    double right_Frontpow = 0;
+    double left_Backpow = 0;
+    double right_Backpow = 0;
     // Initialize required motors and servos
     DcMotor right_Front, right_Back, left_Front, left_Back;
     // Servo is an object, dont forget dummy
 
     @Override
     public void runOpMode() {
-System.out.println("test");
+        System.out.println("test");
 
         
         // Defined Motors and Old Motors
