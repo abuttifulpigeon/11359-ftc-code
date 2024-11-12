@@ -1,3 +1,10 @@
+/**
+ * What follows is the code used for the 2024-2025 season of FTC entitled Into the Deep. This code was written as a handme-down from a code template at least 4 years old as of 12 November, 2024. I offer you, young developer from the future, to, if ChatGPT hasn't killed us all yet, continue the legacy of this code. Below are some notes you may find useful, that I wish I had known when I started. I wish you the best of luck. Signed- Jonah T. Silvia (abuttifulpigeon on Github. jonah@thecoup.xyz for any questions).
+ * 
+ * Servo is an object, dont forget dummy!!!
+ *
+*/
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,24 +23,19 @@ public class DriveCode extends LinearOpMode {
     double right_Frontpow = 0;
     double left_Backpow = 0;
     double right_Backpow = 0;
+    double armPow = 0;
     // Initialize required motors and servos
-    DcMotor right_Front, right_Back, left_Front, left_Back;
-    // Servo is an object, dont forget dummy
-
+    DcMotor right_Front, right_Back, left_Front, left_Back arm;// 
     @Override
     public void runOpMode() {
-        System.out.println("test");
-
-        
         // Defined Motors and Old Motors
         
         right_Back = hardwareMap.dcMotor.get("right_Back"); //motor port 0, hub 1
-        right_Front = hardwareMap.dcMotor.get("right_Front");//motor port 3, hub 1
-        left_Front = hardwareMap.dcMotor.get("left_Front");//motor port 2, hub 1
-        left_Back = hardwareMap.dcMotor.get("left_Back");//motor port 1, hub 1
+        right_Front = hardwareMap.dcMotor.get("right_Front"); //motor port 3, hub 1
+        left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
+        left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
 
-        //arm = hardwareMap.dcMotor.get("arm");//motor port 2, hub 2
-        //arm = hardwareMap.dcMotor.get("arm");//
+        arm = hardwareMap.dcMotor.get("arm");//motor port 0, hub 0
         // Defined Servos and Old Servos
 
         //clawPrim = hardwareMap.servo.get("clawPrim");//servo port 0, hub1
@@ -48,7 +50,7 @@ public class DriveCode extends LinearOpMode {
        
         waitForStart();
         while(opModeIsActive()){  
-                       double POWER = 0.5;
+            double POWER = 0.5;
             left_Frontpow = POWER * -gamepad1.left_stick_y;
             right_Frontpow = POWER * gamepad1.left_stick_y;
             left_Backpow = POWER * gamepad1.left_stick_y;
@@ -76,12 +78,12 @@ public class DriveCode extends LinearOpMode {
 
             // arcade drive
 
-        if (gamepad1.right_stick_y <= -.25) {
+	    if (gamepad1.right_stick_y <= -.25) {
                 turnL();
             } else if (gamepad1.right_stick_y >= .25) {
                 turnR();
             } else {
-                stopD(); // implement ASAP
+                stopD(); 
             }
 
 
@@ -90,7 +92,7 @@ public class DriveCode extends LinearOpMode {
             } else if (gamepad1.left_stick_y >= .25) {
                 driveB();
             } else {
-                stopD(); // implement ASAP
+                stopD();
             }
 
         }
