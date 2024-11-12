@@ -1,8 +1,8 @@
 /**
- * What follows is the code used for the 2024-2025 season of FTC entitled Into the Deep. This code was written as a handme-down from a code template at least 4 years old as of 12 November, 2024. I offer you, young developer from the future, to, if ChatGPT hasn't killed us all yet, continue the legacy of this code. Below are some notes you may find useful, that I wish I had known when I started. I wish you the best of luck. Signed- Jonah T. Silvia (abuttifulpigeon on Github. jonah@thecoup.xyz for any questions).
+ * What follows is the code used for the 2024-2025 season of FTC entitled Into the Deep. This code was written as a handme-down from a code template at least 4 years old as of 12 November, 2024. I offer you, young developer from the future, to, if ChatGPT hasn't killed us all yet, continue the legacy of this code. Below are some notes you may find useful, that I wish I had known when I started. I wish you the best of luck. Signed- Jonah T. Silvia, Senior (abuttifulpigeon on Github. jonah@thecoup.xyz for any questions).
  * 
  * Servo is an object, dont forget dummy!!!
- *
+ * This holds the key to every class and method in OnbotJava. For gamepad buttons scroll down on the left pane until you see Gamepad: https://ftctechnh.github.io/ftc_app/doc/javadoc/index.html
 */
 
 package org.firstinspires.ftc.teamcode;
@@ -55,7 +55,7 @@ public class DriveCode extends LinearOpMode {
             right_Frontpow = POWER * gamepad1.left_stick_y;
             left_Backpow = POWER * gamepad1.left_stick_y;
             right_Backpow = POWER * -gamepad1.left_stick_y;
-        
+	    armPow = POWER;
             
             // Defined Buttons for driving            
             //main power on left stick
