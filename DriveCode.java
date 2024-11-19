@@ -25,7 +25,7 @@ public class DriveCode extends LinearOpMode {
     double right_Backpow = 0;
     double armPow = 0;
     // Initialize required motors and servos
-    DcMotor right_Front, right_Back, left_Front, left_Back arm;// 
+    DcMotor right_Front, right_Back, left_Front, left_Back, lightSaber, saberBase;
     @Override
     public void runOpMode() {
         // Defined Motors and Old Motors
@@ -35,7 +35,8 @@ public class DriveCode extends LinearOpMode {
         left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
         left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
 
-        arm = hardwareMap.dcMotor.get("arm");//motor port 0, hub 0
+        lightSaber = hardwareMap.dcMotor.get("foreArm");
+        saberBase = hardwareMap.dcMotor.get("upperArm");
         // Defined Servos and Old Servos
 
         //clawPrim = hardwareMap.servo.get("clawPrim");//servo port 0, hub1
@@ -55,7 +56,7 @@ public class DriveCode extends LinearOpMode {
             right_Frontpow = POWER * gamepad1.left_stick_y;
             left_Backpow = POWER * gamepad1.left_stick_y;
             right_Backpow = POWER * -gamepad1.left_stick_y;
-	    armPow = POWER;
+	        armPow = POWER;
             
             // Defined Buttons for driving            
             //main power on left stick
@@ -78,7 +79,7 @@ public class DriveCode extends LinearOpMode {
 
             // arcade drive
 
-	    if (gamepad1.right_stick_y <= -.25) {
+	        if (gamepad1.right_stick_y <= -.25) {
                 turnL();
             } else if (gamepad1.right_stick_y >= .25) {
                 turnR();
@@ -93,6 +94,16 @@ public class DriveCode extends LinearOpMode {
                 driveB();
             } else {
                 stopD();
+            }
+
+            if (gamepad1.a) {
+                tiltUp();
+            } else if (gamepad1.b) {
+                tiltDown();
+            } else if (gamepad1.x) {
+                expand();
+            } else if (gamepad1.y) {
+                retract();
             }
 
         }
@@ -175,5 +186,27 @@ public class DriveCode extends LinearOpMode {
         right_Back.setPower(0);
         left_Front.setPower(0);
         left_Back.setPower(0);
+    }
+
+    // Arm Functions
+
+    private void tiltUp() {
+        saberBase.setDirection(DcMotorSimple.Direction.FORWARD);
+        saberBase.setPower(armPow);
+    }
+
+    private void tiltDown() {
+        saberBase.setDirection(DcMotorSimple.Direction.REVERSE);
+        saberBase.setPower(armPow);
+    }
+
+    private void expand() {
+        lightSaber.setDirection(DcMotorSimple.Direction.FORWARD);
+        lightSaber.setPower(armPow);
+    }
+
+    private void retract() {
+        lightSaber.setDirection(DcMotorSimple.Direction.REVERSE);
+        lightSaber.setPower(armPow);
     }
 }
