@@ -23,13 +23,14 @@ public class DriveCode extends LinearOpMode {
 
     public static final double DRIVE_POWER = 0.5;
     public static final double SABER_POWER = 0.5;
-    public static final double STICK_DEADZONE = 0.1;
+    public static final double STICK_DEADZONE = 0.25;
 
     double left_Frontpow = 0;
     double right_Frontpow = 0;
     double left_Backpow = 0; 
     double right_Backpow = 0;
-    double armPow = 0;
+    
+    double saberPow = 0;
 
     // Initialize required motors and servos
     DcMotor right_Front, right_Back, left_Front, left_Back;
@@ -71,66 +72,71 @@ public class DriveCode extends LinearOpMode {
     }
 
     private void handleDriveControls() {
-            double POWER = DRIVE_POWER;
-
-            left_Frontpow = POWER * -gamepad1.left_stick_y;
-            right_Frontpow = POWER * gamepad1.left_stick_y;
-            left_Backpow = POWER * gamepad1.left_stick_y;
-            right_Backpow = POWER * -gamepad1.left_stick_y;
-	        armPow = POWER;
-            
+            left_Frontpow = DRIVE_POWER * -gamepad1.left_stick_y;
+            right_Frontpow = DRIVE_POWER * gamepad1.left_stick_y;
+            left_Backpow = DRIVE_POWER * gamepad1.left_stick_y;
+            right_Backpow = DRIVE_POWER * -gamepad1.left_stick_y;
+	        
+                        
             // Defined Buttons for driving            
             //main power on left stick
             
           
             //direction on right stick
-            left_Frontpow+= POWER * -gamepad1.right_stick_x;
-            left_Backpow+= POWER * -gamepad1.right_stick_x;
-            right_Frontpow-= POWER * gamepad1.right_stick_x;
-            right_Backpow-= POWER * gamepad1.right_stick_x;
+            left_Frontpow += DRIVE_POWER * -gamepad1.right_stick_x;
+            left_Backpow += DRIVE_POWER * -gamepad1.right_stick_x;
+            right_Frontpow -= DRIVE_POWER * gamepad1.right_stick_x;
+            right_Backpow -= DRIVE_POWER * gamepad1.right_stick_x;
             
             
             //strafe on left stick
-            left_Frontpow+= POWER * gamepad1.left_stick_x;
-            left_Backpow+= POWER * gamepad1.left_stick_x;
-            right_Frontpow-= POWER * gamepad1.left_stick_x;
-            right_Backpow-= POWER * gamepad1.left_stick_x;
+            left_Frontpow += DRIVE_POWER * gamepad1.left_stick_x;
+            left_Backpow += DRIVE_POWER * gamepad1.left_stick_x;
+            right_Frontpow -= DRIVE_POWER * gamepad1.left_stick_x;
+            right_Backpow -= DRIVE_POWER * gamepad1.left_stick_x;
             
             
 
             // arcade drive
 
-	        if (gamepad1.right_stick_y <= -.25) {
-                turnL();
-            } else if (gamepad1.right_stick_y >= .25) {
-                turnR();
-            } else {
-                stopD(); 
-            }
-
-
-            if (gamepad1.left_stick_y <= -.25) {
-                driveF();
-            } else if (gamepad1.left_stick_y >= .25) {
-                driveB();
-            } else {
-                stopD();
-            }
+	       arcadeDrive(gamepad1); 
 
             
     }
 
-    private void handleSaberControls() {
-            double armPower = DRIVE_POWER;
+    private void arcadeDrive(Gamepad gamepad) {
+        if (checkDeadzone(gamepad.right_stick_y)) {
+            if (gamepad.right_stick_y < 0) {
+                turnL();
+            } else {
+                turnR();
+            }
+        }
+        
+        if (checkDeadzone(gamepad.left_stick_y)) {
+            if (gamepad.left_stick_y < 0) {
+                driveF();
+            } else {
+                driveB();
+            }
+        }
+        
+        stopD();
+    }
 
+    private boolean checkDeadzone(float stickValue) {
+        return Math.abs(stickValue) >= STICK_DEADZONE;
+    }
+
+    private void handleSaberControls() {
             if (gamepad1.a) {
-                tiltSaber(armPower, true);
+                tiltSaber(SABER_POWER, true);
             } else if (gamepad1.b) {
-                tiltSaber(armPower, false);
+                tiltSaber(SABER_POWER, false);
             } else if (gamepad1.x) {
-                expandSaber(armPower, true);
+                expandSaber(SABER_POWER, true);
             } else if (gamepad1.y) {
-                expandSaber(armPower, false);
+                expandSaber(SABER_POWER, false);
             }
     }
 
