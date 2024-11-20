@@ -3,6 +3,7 @@
  * 
  * Servo is an object, dont forget dummy!!!
  * This holds the key to every class and method in OnbotJava. For gamepad buttons scroll down on the left pane until you see Gamepad: https://ftctechnh.github.io/ftc_app/doc/javadoc/index.html
+ * The "saber" is an arm with a linear slide. Please consult your hardware manual for further details.
 */
 
 package org.firstinspires.ftc.teamcode;
@@ -19,39 +20,59 @@ import com.qualcomm.*;
 
 @TeleOp(name = "DriveCode", group = "TeleOp")
 public class DriveCode extends LinearOpMode {
+
+    public static final double DRIVE_POWER = 0.5;
+    public static final double SABER_POWER = 0.5;
+    public static final double STICK_DEADZONE = 0.1;
+
     double left_Frontpow = 0;
     double right_Frontpow = 0;
-    double left_Backpow = 0;
+    double left_Backpow = 0; 
     double right_Backpow = 0;
     double armPow = 0;
+
     // Initialize required motors and servos
-    DcMotor right_Front, right_Back, left_Front, left_Back, lightSaber, saberBase;
+    DcMotor right_Front, right_Back, left_Front, left_Back;
+    DcMotor lightSaber, saberBase; 
     @Override
     public void runOpMode() {
-        // Defined Motors and Old Motors
-        
-        right_Back = hardwareMap.dcMotor.get("right_Back"); //motor port 0, hub 1
-        right_Front = hardwareMap.dcMotor.get("right_Front"); //motor port 3, hub 1
-        left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
-        left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
+        initializeHardware();  
 
-        lightSaber = hardwareMap.dcMotor.get("foreArm");
-        saberBase = hardwareMap.dcMotor.get("upperArm");
-        // Defined Servos and Old Servos
-
-        //clawPrim = hardwareMap.servo.get("clawPrim");//servo port 0, hub1
-        
-        // Only Reversed Motor
-        //clawPrim.setDirection(Servo.Direction());
-        
-        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        
-        // When Game Starts / Controls
        
         waitForStart();
-        while(opModeIsActive()){  
-            double POWER = 0.5;
+        while(opModeIsActive()){ 
+            // When Game Starts / Controls
+            handleDriveControls();
+            handleSaberControls(); 
+
+        }
+    }
+
+    // Init
+
+    private void initializeHardware() {
+        try {
+            right_Back = hardwareMap.dcMotor.get("right_Back"); //motor port 0, hub 1
+            right_Front = hardwareMap.dcMotor.get("right_Front"); //motor port 3, hub 1
+            left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
+            left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
+
+            lightSaber = hardwareMap.dcMotor.get("lighSaber");
+            saberBase = hardwareMap.dcMotor.get("saberBase");
+    
+            left_Front.setDirection( DcMotorSimple.Direction.FORWARD);
+            right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+            left_Back.setDirection(  DcMotorSimple.Direction.FORWARD);
+            right_Back.setDirection( DcMotorSimple.Direction.FORWARD);
+        } catch (Exception e) {
+            telemetry.addData("Error", "Failed to initialize hardware: " + e.getMessage());
+            telemetry.update(); 
+        }
+    }
+
+    private void handleDriveControls() {
+            double POWER = DRIVE_POWER;
+
             left_Frontpow = POWER * -gamepad1.left_stick_y;
             right_Frontpow = POWER * gamepad1.left_stick_y;
             left_Backpow = POWER * gamepad1.left_stick_y;
@@ -96,18 +117,24 @@ public class DriveCode extends LinearOpMode {
                 stopD();
             }
 
-            if (gamepad1.a) {
-                tiltUp();
-            } else if (gamepad1.b) {
-                tiltDown();
-            } else if (gamepad1.x) {
-                expand();
-            } else if (gamepad1.y) {
-                retract();
-            }
+            
+    }
 
-        }
-    }    
+    private void handleSaberControls() {
+            double armPower = DRIVE_POWER;
+
+            if (gamepad1.a) {
+                tiltSaber(armPower, true);
+            } else if (gamepad1.b) {
+                tiltSaber(armPower, false);
+            } else if (gamepad1.x) {
+                expandSaber(armPower, true);
+            } else if (gamepad1.y) {
+                expandSaber(armPower, false);
+            }
+    }
+
+    // Drive Functions
 
     private void driveF() {
         left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -190,23 +217,14 @@ public class DriveCode extends LinearOpMode {
 
     // Arm Functions
 
-    private void tiltUp() {
+    private void tiltSaber(double power, boolean up) {
         saberBase.setDirection(DcMotorSimple.Direction.FORWARD);
-        saberBase.setPower(armPow);
+        saberBase.setPower(power);
+    }
+    
+    private void expandSaber(double power, boolean expand) {
+        lightSaber.setDirection(expand ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+        lightSaber.setPower(power);
     }
 
-    private void tiltDown() {
-        saberBase.setDirection(DcMotorSimple.Direction.REVERSE);
-        saberBase.setPower(armPow);
-    }
-
-    private void expand() {
-        lightSaber.setDirection(DcMotorSimple.Direction.FORWARD);
-        lightSaber.setPower(armPow);
-    }
-
-    private void retract() {
-        lightSaber.setDirection(DcMotorSimple.Direction.REVERSE);
-        lightSaber.setPower(armPow);
-    }
 }
