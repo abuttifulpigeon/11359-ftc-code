@@ -72,10 +72,10 @@ public class DriveCode extends LinearOpMode {
     }
 
     private void handleDriveControls() {
-            left_Frontpow = DRIVE_POWER * -gamepad1.left_stick_y;
+            left_Frontpow = DRIVE_POWER * gamepad1.left_stick_y;
             right_Frontpow = DRIVE_POWER * gamepad1.left_stick_y;
             left_Backpow = DRIVE_POWER * gamepad1.left_stick_y;
-            right_Backpow = DRIVE_POWER * -gamepad1.left_stick_y;
+            right_Backpow = DRIVE_POWER * gamepad1.left_stick_y;
 	        
                         
             // Defined Buttons for driving            
