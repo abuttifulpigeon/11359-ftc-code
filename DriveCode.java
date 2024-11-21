@@ -105,11 +105,11 @@ public class DriveCode extends LinearOpMode {
     }
 
     private void arcadeDrive(Gamepad gamepad) {
-        if (checkDeadzone(gamepad.right_stick_y)) {
-            if (gamepad.right_stick_y < 0) {
-                turnL();
-            } else {
+        if (checkDeadzone(gamepad.right_stick_x) && checkDeadzone(gamepad.left_stick_y)) {
+            if (gamepad.right_stick_x < 0 && gamepad.left_stick_y < 0) {
                 turnR();
+            } else if(gamepad.right_stick_x > 0 && gamepad.left_stick_y > 0) {
+                turnL();
             }
         }
         
@@ -118,6 +118,14 @@ public class DriveCode extends LinearOpMode {
                 driveF();
             } else {
                 driveB();
+            }
+        }
+
+        if (checkDeadzone(gamepad.right_stick_x)) {
+            if (gamepad.right_stick_x < 0) {
+                driveL();
+            } else {
+                driveR();
             }
         }
         
