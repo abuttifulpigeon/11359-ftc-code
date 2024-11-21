@@ -116,7 +116,7 @@ public class DriveCode extends LinearOpMode {
         if (checkDeadzone(gamepad.left_stick_y)) {
             if (gamepad.left_stick_y < 0) {
                 driveF();
-            } else {
+            } else if (gamepad.left_stick_y > 0) {
                 driveB();
             }
         }
@@ -145,6 +145,9 @@ public class DriveCode extends LinearOpMode {
                 expandSaber(SABER_POWER, true);
             } else if (gamepad1.y) {
                 expandSaber(SABER_POWER, false);
+            } else {
+                tiltSaber(0, false);
+                expandSaber(0, false);
             }
     }
 
