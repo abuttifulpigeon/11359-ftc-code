@@ -160,10 +160,10 @@ public class DriveCode extends LinearOpMode {
         right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        right_Front.setPower(-right_Frontpow);
-        right_Back.setPower(-right_Backpow);
-        left_Front.setPower(-left_Frontpow);
-        left_Back.setPower(-left_Backpow);
+        right_Front.setPower(right_Frontpow);
+        right_Back.setPower(right_Backpow);
+        left_Front.setPower(left_Frontpow);
+        left_Back.setPower(left_Backpow);
     }
 
     private void driveL() {
