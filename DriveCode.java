@@ -99,30 +99,30 @@ public class DriveCode extends LinearOpMode {
 
             // arcade drive
 
-	       arcadeDrive(gamepad1); 
+	       arcadeDrive(); 
 
             
     }
 
-    private void arcadeDrive(Gamepad gamepad) {
-        if (checkDeadzone(gamepad.right_stick_x) && checkDeadzone(gamepad.left_stick_y)) {
-            if (gamepad.right_stick_x < 0 && gamepad.left_stick_y < 0) {
+    private void arcadeDrive() {
+        if (checkDeadzone(gamepad1.right_stick_x) && checkDeadzone(gamepad1.left_stick_y)) {
+            if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0) {
                 turnR();
-            } else if(gamepad.right_stick_x > 0 && gamepad.left_stick_y > 0) {
+            } else if(gamepad1.right_stick_x > 0 && gamepad.left_stick_y > 0) {
                 turnL();
             }
         }
         
-        if (checkDeadzone(gamepad.left_stick_y)) {
-            if (gamepad.left_stick_y < 0) {
+        if (checkDeadzone(gamepad1.left_stick_y)) {
+            if (gamepad1.left_stick_y < 0) {
                 driveF();
-            } else if (gamepad.left_stick_y > 0) {
+            } else if (gamepad1.left_stick_y > 0) {
                 driveB();
             }
         }
 
-        if (checkDeadzone(gamepad.right_stick_x)) {
-            if (gamepad.right_stick_x < 0) {
+        if (checkDeadzone(gamepad1.right_stick_x)) {
+            if (gamepad1.right_stick_x < 0) {
                 driveL();
             } else {
                 driveR();
