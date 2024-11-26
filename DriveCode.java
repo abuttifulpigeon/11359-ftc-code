@@ -58,7 +58,7 @@ public class DriveCode extends LinearOpMode {
             left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
             left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
 
-            lightSaber = hardwareMap.dcMotor.get("lighSaber");
+            lightSaber = hardwareMap.dcMotor.get("lightSaber");
             saberBase = hardwareMap.dcMotor.get("saberBase");
     
             left_Front.setDirection( DcMotorSimple.Direction.FORWARD);
@@ -108,7 +108,7 @@ public class DriveCode extends LinearOpMode {
         if (checkDeadzone(gamepad1.right_stick_x) && checkDeadzone(gamepad1.left_stick_y)) {
             if (gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0) {
                 turnR();
-            } else if(gamepad1.right_stick_x > 0 && gamepad.left_stick_y > 0) {
+            } else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0) {
                 turnL();
             }
         }
@@ -179,9 +179,9 @@ public class DriveCode extends LinearOpMode {
 
     private void driveL() {
         left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
         right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+        right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
         
         right_Front.setPower(right_Frontpow);
         right_Back.setPower(right_Backpow);
@@ -191,9 +191,9 @@ public class DriveCode extends LinearOpMode {
 
     private void driveR() {
         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+        right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
         
         right_Front.setPower(right_Frontpow);
         right_Back.setPower(right_Backpow);
