@@ -185,8 +185,8 @@ public class DriveCode extends LinearOpMode {
         
         right_Front.setPower(right_Frontpow);
         right_Back.setPower(right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
+        left_Front.setPower(left_Frontpow / 2.0);
+        left_Back.setPower(left_Backpow / 2.0);
     }
 
     private void driveR() {
@@ -195,8 +195,8 @@ public class DriveCode extends LinearOpMode {
         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
         
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
+        right_Front.setPower(right_Frontpow / 2.0);
+        right_Back.setPower(right_Backpow / 2.0);
         left_Front.setPower(left_Frontpow);
         left_Back.setPower(left_Backpow);
     }
