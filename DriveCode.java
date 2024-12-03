@@ -154,8 +154,8 @@ public class DriveCode extends LinearOpMode {
     // Drive Functions
 
     private void driveF() {
-        left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -166,8 +166,8 @@ public class DriveCode extends LinearOpMode {
     }
 
     private void driveB() {
-        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
         right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
 
