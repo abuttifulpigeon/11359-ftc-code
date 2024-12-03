@@ -235,7 +235,7 @@ public class DriveCode extends LinearOpMode {
     // Arm Functions
 
     private void tiltSaber(double power, boolean up) {
-        saberBase.setDirection(DcMotorSimple.Direction.FORWARD);
+        saberBase.setDirection(up ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
         saberBase.setPower(power);
     }
     
