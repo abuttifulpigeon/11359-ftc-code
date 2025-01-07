@@ -34,8 +34,7 @@ public class DriveCode extends LinearOpMode {
 
     // Initialize required motors and servos
     DcMotor right_Front, right_Back, left_Front, left_Back;
-    DcMotor lightSaber, saberBase; 
-    DcMotor lightSaber2, saberBase2; 
+    DcMotor lightSaber, saberBase, saberBase2; 
     @Override
     public void runOpMode() {
         initializeHardware();  
@@ -249,9 +248,6 @@ public class DriveCode extends LinearOpMode {
     private void expandSaber(double power, boolean expand) {
         lightSaber.setDirection(expand ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
         lightSaber.setPower(power);
-
-        lightSaber2.setDirection(expand ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
-        lightSaber2.setPower(power);
     }
 
 }
