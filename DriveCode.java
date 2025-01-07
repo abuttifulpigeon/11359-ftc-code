@@ -35,6 +35,7 @@ public class DriveCode extends LinearOpMode {
     // Initialize required motors and servos
     DcMotor right_Front, right_Back, left_Front, left_Back;
     DcMotor lightSaber, saberBase; 
+    DcMotor lightSaber2, saberBase2; 
     @Override
     public void runOpMode() {
         initializeHardware();  
@@ -60,11 +61,14 @@ public class DriveCode extends LinearOpMode {
 
             lightSaber = hardwareMap.dcMotor.get("lightSaber");
             saberBase = hardwareMap.dcMotor.get("saberBase");
+
+            lightSaber2 = hardwareMap.dcMotor.get("lighSaber2");
+            saberBase2 = hardwareMap.dcMotor.get("saberBase2")
     
-            left_Front.setDirection( DcMotorSimple.Direction.FORWARD);
+            left_Front.setDirection (DcMotorSimple.Direction.FORWARD);
             right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-            left_Back.setDirection(  DcMotorSimple.Direction.FORWARD);
-            right_Back.setDirection( DcMotorSimple.Direction.FORWARD);
+            left_Back.setDirection  (DcMotorSimple.Direction.FORWARD);
+            right_Back.setDirection (DcMotorSimple.Direction.FORWARD);
         } catch (Exception e) {
             telemetry.addData("Error", "Failed to initialize hardware: " + e.getMessage());
             telemetry.update(); 
@@ -237,11 +241,17 @@ public class DriveCode extends LinearOpMode {
     private void tiltSaber(double power, boolean up) {
         saberBase.setDirection(up ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
         saberBase.setPower(power);
+
+        saberBase2.setDirection(up ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+        saberBase2.setPower(power);
     }
     
     private void expandSaber(double power, boolean expand) {
         lightSaber.setDirection(expand ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
         lightSaber.setPower(power);
+
+        lightSaber2.setDirection(expand ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+        lightSaber2.setPower(power);
     }
 
 }
