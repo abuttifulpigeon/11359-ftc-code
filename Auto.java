@@ -1,216 +1,288 @@
-package org.firstinspires.ftc.teamcode;
+/*
+ * 0.65m/s
+ * 2.12ft/s
+ */
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.*;
-
-@TeleOp(name = "Auto", group = "Autonomous")
-public class DriveCode extends LinearOpMode {
-
-    // Initialize required motors and servos
-    public static final double DRIVE_POWER = 0.5;
-    public static final double SABER_POWER = 0.5;
-    public static final double STICK_DEADZONE = 0.25;
-
-    double left_Frontpow = 0;
-    double right_Frontpow = 0;
-    double left_Backpow = 0; 
-    double right_Backpow = 0;
-    
-    double saberPow = 0;
-
-    // Initialize required motors and servos
-    DcMotor right_Front, right_Back, left_Front, left_Back;
-    DcMotor lightSaber, saberBase; 
-    @Override
-    public void runOpMode() {
-        initializeHardware();  
-
-       
-        waitForStart();
-        while(opModeIsActive()){ 
-            // When Game Starts / Controls
-            handleDriveControls();
-            handleSaberControls(); 
-
-        }
-    }
-
-    // Init
-
-    private void initializeHardware() {
-        try {
-            right_Back = hardwareMap.dcMotor.get("right_Back"); //motor port 0, hub 1
-            right_Front = hardwareMap.dcMotor.get("right_Front"); //motor port 3, hub 1
-            left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
-            left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
-
-            lightSaber = hardwareMap.dcMotor.get("lightSaber");
-            saberBase = hardwareMap.dcMotor.get("saberBase");
-    
-            left_Front.setDirection( DcMotorSimple.Direction.FORWARD);
-            right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-            left_Back.setDirection(  DcMotorSimple.Direction.FORWARD);
-            right_Back.setDirection( DcMotorSimple.Direction.FORWARD);
-        } catch (Exception e) {
-            telemetry.addData("Error", "Failed to initialize hardware: " + e.getMessage());
-            telemetry.update(); 
-        }
-    }
-
-    private void handleDriveControls() {
-            left_Frontpow = DRIVE_POWER * gamepad1.left_stick_y;
-            right_Frontpow = DRIVE_POWER * gamepad1.left_stick_y;
-            left_Backpow = DRIVE_POWER * gamepad1.left_stick_y;
-            right_Backpow = DRIVE_POWER * gamepad1.left_stick_y;
-	        
-                        
-            // Defined Buttons for driving            
-            //main power on left stick
-            
-          
-            //direction on right stick
-            left_Frontpow += DRIVE_POWER * -gamepad1.right_stick_x;
-            left_Backpow += DRIVE_POWER * -gamepad1.right_stick_x;
-            right_Frontpow -= DRIVE_POWER * gamepad1.right_stick_x;
-            right_Backpow -= DRIVE_POWER * gamepad1.right_stick_x;
-            
-            
-            //strafe on left stick
-            left_Frontpow += DRIVE_POWER * gamepad1.left_stick_x;
-            left_Backpow += DRIVE_POWER * gamepad1.left_stick_x;
-            right_Frontpow -= DRIVE_POWER * gamepad1.left_stick_x;
-            right_Backpow -= DRIVE_POWER * gamepad1.left_stick_x;
-            
-            
-
-            doAuto();
-
-            
-    }
-
-    private void doAuto() {
-        
-
-        
-        stopD();
-    }
-
-    private boolean checkDeadzone(float stickValue) {
-        return Math.abs(stickValue) >= STICK_DEADZONE;
-    }
-
-    private void handleSaberControls() {
-            if (gamepad1.a) {
-                tiltSaber(SABER_POWER, true);
-            } else if (gamepad1.b) {
-                tiltSaber(SABER_POWER, false);
-            } else if (gamepad1.x) {
-                expandSaber(SABER_POWER, true);
-            } else if (gamepad1.y) {
-                expandSaber(SABER_POWER, false);
-            } else {
-                tiltSaber(0, false);
-                expandSaber(0, false);
-            }
-    }
-
-    // Drive Functions
-
-    private void driveF() {
-        left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
-    }
-
-    private void driveB() {
-        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
-    }
-
-    private void driveL() {
-        left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-        
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
-        left_Front.setPower(-left_Frontpow);
-        left_Back.setPower(-left_Backpow);
-    }
-
-    private void driveR() {
-        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-        
-        right_Front.setPower(-right_Frontpow);
-        right_Back.setPower(-right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
-    }
-
-    private void turnL() {
-        left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
-        
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
-    }
-
-    private void turnR() {
-        left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
-        right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
-        
-        right_Front.setPower(right_Frontpow);
-        right_Back.setPower(right_Backpow);
-        left_Front.setPower(left_Frontpow);
-        left_Back.setPower(left_Backpow);
-    }
-    private void stopD() {
+ package org.firstinspires.ftc.teamcode;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.hardware.HardwareDevice;
+ import com.qualcomm.robotcore.hardware.Servo;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+ import com.qualcomm.robotcore.hardware.DcMotorSimple;
+ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.util.ElapsedTime;
+ import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.*;
+ @Autonomous
  
-        right_Front.setPower(0);
-        right_Back.setPower(0);
-        left_Front.setPower(0);
-        left_Back.setPower(0);
-    }
-
-    // Arm Functions
-
-    private void tiltSaber(double power, boolean up) {
-        saberBase.setDirection(DcMotorSimple.Direction.FORWARD);
-        saberBase.setPower(power);
-    }
-    
-    private void expandSaber(double power, boolean expand) {
-        lightSaber.setDirection(expand ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
-        lightSaber.setPower(power);
-    }
-}
+ public class Auto extends LinearOpMode {
+     public static final double DRIVE_POWER = 1;
+     public static final double SABER_POWER = 1;
+     public static final double powerON = 1;
+     public static final double powerOFF = 0;
+     
+     DcMotor right_Front, right_Back, left_Front, left_Back;
+     DcMotor lightSaber, saberBase; 
+     //Servo claw; // uncomment me when the claw is on !!!
+     // challenges
+     ElapsedTime timer; // initialize timer 
+     public void runOpMode() {
+         initializeHardware();  
+         waitForStart();
+         while(opModeIsActive()){ 
+             telemetry.update();
+           // place to write script: function(seconds); OR function(); for non time related functions (marked with star)
+           /*  
+           available functions
+           -------------------------------------------
+           driving: driveF, driveB, strafeL, strafeR, 
+           turning: turnL, turnR, 
+           sabre:   armIn, armOut, armUp, armDown, 
+           claw:    grab*, release* // will not work until the claw is on !!!
+                    buffer
+           -------------------------------------------
+           plan ->
+           start with one specimen, drive forward to attach to the bars
+           after, put on bucket
+           */ 
+ 
+           // vehiclular speed: ~2.11ft/s
+           // 10ft in 4.74s
+           // rotational speed: ?
+           driveF(1.0);
+           driveB(0.5);
+           strafeR(1.0);
+           driveB(2.0);
+           strafeL(1.0);
+ 
+         }
+     }
+ 
+     private void initializeHardware() {
+         try {
+             right_Back = hardwareMap.dcMotor.get("right_Back"); //motor port 0, hub 1
+             right_Front = hardwareMap.dcMotor.get("right_Front"); //motor port 3, hub 1
+             left_Front = hardwareMap.dcMotor.get("left_Front"); //motor port 2, hub 1
+             left_Back = hardwareMap.dcMotor.get("left_Back"); //motor port 1, hub 1
+ 
+             lightSaber = hardwareMap.dcMotor.get("lightSaber");
+             saberBase = hardwareMap.dcMotor.get("saberBase");
+            // claw = hardwareMap.servo.get("claw"); // uncomment me when the claw is on!!!
+     
+             left_Front.setDirection( DcMotorSimple.Direction.FORWARD);
+             right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+             left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+             right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         } catch (Exception e) {
+             telemetry.addData("Error", "Failed to initialize hardware: " + e.getMessage());
+             telemetry.update(); 
+         }
+     }
+     // RIGHT IS POSITIVE, LEFT IS NEGATIVE
+     private void driveF(double time) {
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+         left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         
+         while(timer.seconds <= time){
+             right_Front.setPower(powerON);
+             right_Back.setPower(powerON);
+             left_Front.setPower(-powerON);
+             left_Back.setPower(-powerON);
+         }
+         
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);
+         
+     }
+     private void driveB(double time) {
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+         left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         
+         while(timer.seconds <= time){
+             right_Front.setPower(-powerON);
+             right_Back.setPower(-powerON);
+             left_Front.setPower(powerON);
+             left_Back.setPower(powerON);
+         }
+         
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);   
+     }
+     private void strafeL(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+         left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         while(timer.seconds <= time){
+         right_Front.setPower(-0.5);
+         right_Back.setPower(0.5);
+         left_Front.setPower(0.5);
+         left_Back.setPower(-0.5);
+         }
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);   
+         
+     }
+     private void strafeR(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+          left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+          right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+          right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         while(timer.seconds <= time){
+         right_Front.setPower(0.5);
+          right_Back.setPower(-0.5);
+          left_Front.setPower(-0.5);
+          left_Back.setPower(0.5);
+         }
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);   
+      }
+     private void turnR(double time) {
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+         left_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
+         right_Back.setDirection(DcMotorSimple.Direction.FORWARD);
+         
+         while(timer.seconds <= time){
+             right_Front.setPower(-powerON);
+             right_Back.setPower(-powerON);
+             left_Front.setPower(powerON);
+             left_Back.setPower(powerON);
+         }
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);   
+     }
+     private void turnL(double time) {
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         left_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+         left_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+         right_Front.setDirection(DcMotorSimple.Direction.REVERSE);
+         right_Back.setDirection(DcMotorSimple.Direction.REVERSE);
+         
+         while(timer.seconds <= time){
+             right_Front.setPower(-powerON);
+             right_Back.setPower(-powerON);
+             left_Front.setPower(powerON);
+             left_Back.setPower(powerON);
+         }
+         right_Front.setPower(powerOFF);
+         right_Back.setPower(powerOFF);
+         left_Front.setPower(powerOFF);
+         left_Back.setPower(powerOFF);   
+     }
+     private void buffer(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+             right_Front.setPower(0);
+             right_Back.setPower(0);
+             left_Front.setPower(0);
+             left_Back.setPower(0);
+             tiltSaber(0, false);
+             expandSaber(0, false);
+         }
+         
+     }
+     /* uncomment me when the claw is on!!!
+     private void grab(){
+         waitForStart();
+     claw.setPosition(1);
+     }
+     private void release(){
+         waitForStart();
+     claw.setPosition(0);
+     }
+     */
+     private void tiltSaber(double power, boolean up) {
+         saberBase.setDirection(up ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+         saberBase.setPower(power);
+     }
+     
+     private void expandSaber(double power, boolean expand) {
+         lightSaber.setDirection(expand ? DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+         lightSaber.setPower(power);
+     }
+     private void armUp(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+         tiltSaber(SABER_POWER, true);
+         }
+         tiltSaber(0, false);
+     }
+     private void armDown(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+         tiltSaber(SABER_POWER, false);
+         }
+         tiltSaber(0, false);
+     }
+     private void armIn(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+         expandSaber(SABER_POWER, false);
+         }
+         expandSaber(0, false);
+         
+     }
+     private void armOut(double time){
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+         expandSaber(SABER_POWER, true);
+         }
+         expandSaber(0, false);
+     }
+     /*
+         ElapsedTime timer = new Timer();
+         waitForStart();
+         while(timer.seconds <= time){
+         
+         }
+      */
+     /*
+         private void handleSaberControls() {
+                  if (gamepad1.left_trigger > 0) {
+                      tiltSaber(SABER_POWER, true);
+                  } else if (gamepad1.left_bumper) {
+                      tiltSaber(SABER_POWER, false);
+                  } else if (gamepad1.right_trigger > 0) {
+                      expandSaber(SABER_POWER, true);
+                  } else if (gamepad1.right_bumper) {
+                      expandSaber(SABER_POWER, false);
+                  } else {
+                      tiltSaber(0, false);
+                      expandSaber(0, false);
+                  }
+          }
+      */
+ }
+ 
+ 
