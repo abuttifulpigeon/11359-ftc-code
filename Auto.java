@@ -3,6 +3,20 @@
  * 2.12ft/s
  */
 
+ /**
+  * Autonomus documentation. Last updated 2025-01-09
+  *
+  * place to write script: function(seconds); OR function(); for non time related functions (marked with star)
+  * available functions
+    -------------------------------------------
+    driving: driveF, driveB, strafeL, strafeR, 
+    turning: turnL, turnR, 
+    sabre:   armIn, armOut, armUp, armDown, 
+    claw:    grab*, release* // will not work until the claw is on !!!
+             buffer
+    -------------------------------------------
+  */
+
  package org.firstinspires.ftc.teamcode;
  import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  import com.qualcomm.robotcore.hardware.HardwareDevice;
@@ -13,6 +27,7 @@
  import com.qualcomm.robotcore.util.ElapsedTime;
  import com.qualcomm.robotcore.hardware.DcMotor;
  import com.qualcomm.*;
+ 
  @Autonomous
  
  public class Auto extends LinearOpMode {
@@ -31,20 +46,6 @@
          waitForStart();
          while(opModeIsActive()){ 
              telemetry.update();
-           // place to write script: function(seconds); OR function(); for non time related functions (marked with star)
-           /*  
-           available functions
-           -------------------------------------------
-           driving: driveF, driveB, strafeL, strafeR, 
-           turning: turnL, turnR, 
-           sabre:   armIn, armOut, armUp, armDown, 
-           claw:    grab*, release* // will not work until the claw is on !!!
-                    buffer
-           -------------------------------------------
-           plan ->
-           start with one specimen, drive forward to attach to the bars
-           after, put on bucket
-           */ 
  
            // vehiclular speed: ~2.11ft/s
            // 10ft in 4.74s
