@@ -1,8 +1,3 @@
-/*
- * 0.65m/s
- * 2.12ft/s
- */
-
  /**
   * Autonomus documentation. Last updated 2025-01-09
   *
@@ -27,7 +22,7 @@
  import com.qualcomm.robotcore.util.ElapsedTime;
  import com.qualcomm.robotcore.hardware.DcMotor;
  import com.qualcomm.*;
- 
+
  @Autonomous
  
  public class Auto extends LinearOpMode {
