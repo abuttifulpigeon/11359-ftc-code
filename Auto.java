@@ -7,12 +7,14 @@
     driving: driveF, driveB, strafeL, strafeR, 
     turning: turnL, turnR, 
     sabre:   armIn, armOut, armUp, armDown, 
-    claw:    grab*, release* // will not work until the claw is on !!!
-             buffer
+    claw:    grab*, release*, buffer
+             
+             *will not work until the claw is on !!!
     -------------------------------------------
   */
 
  package org.firstinspires.ftc.teamcode;
+ 
  import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  import com.qualcomm.robotcore.hardware.HardwareDevice;
  import com.qualcomm.robotcore.hardware.Servo;
@@ -44,7 +46,7 @@
  
            // vehiclular speed: ~2.11ft/s
            // 10ft in 4.74s
-           // rotational speed: ?
+           // rotational speed: ~1.055ft/s
            driveF(1.0);
            driveB(0.5);
            strafeR(1.0);
