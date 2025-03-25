@@ -62,7 +62,7 @@ public class DriveCode extends LinearOpMode {
             saberBase = hardwareMap.dcMotor.get("saberBase");
 
             lightSaber2 = hardwareMap.dcMotor.get("lighSaber2");
-            saberBase2 = hardwareMap.dcMotor.get("saberBase2")
+            saberBase2 = hardwareMap.dcMotor.get("saberBase2");
     
             left_Front.setDirection (DcMotorSimple.Direction.FORWARD);
             right_Front.setDirection(DcMotorSimple.Direction.FORWARD);
